@@ -18,7 +18,7 @@ def readme() -> str:
     return open(os.path.join(os.path.dirname(__file__), 'README.md')).read()
 
 setup(
-    name='c17-97-t-data-bi',
+    name='c17_97_t_data_bi',
     version='0.1.0',
     author='c17-97-t-data-bi',
     author_email='Yout email (or your organization/company/team)',
