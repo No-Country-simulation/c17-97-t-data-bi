@@ -59,9 +59,24 @@ def mergingDatasets():
 
     return olist_df
 
+def removeColumns(df) -> None:
+    columns_to_delete = ['customer_id', 'order_status', 'order_approved_at', 
+                       'order_delivered_carrier_date', 'order_delivered_customer_date', 
+                       'order_estimated_delivery_date', 'delivered_time', 'estimated_time', 
+                       'yearly', 'order_item_id', 'shipping_limit_date', 'product_name_lenght', 
+                       'product_description_lenght', 'product_photos_qty', 'product_weight_g', 
+                       'product_length_cm', 'product_height_cm', 'product_width_cm', 
+                       'customer_state', 'review_id', 'review_comment_message', 
+                       'review_answer_timestamp']
+    
+    df.drop(columns=columns_to_delete, inplace=True)
+
+    return df
+
 def main():
     featureEnginering()
     print(mergingDatasets().info())
+    print(removeColumns(mergingDatasets()))
     datasets = {
         'customer_df': customer_df,
         'geolocation_df': geolocation_df,
@@ -71,7 +86,7 @@ def main():
         'orders_df': orders_df,
         'products_df': products_df,
         'sellers_df': sellers_df,
-        'olist_df': mergingDatasets()
+        'olist_df': removeColumns(mergingDatasets())
     }
 
     directory = 'data/processed'
