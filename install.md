@@ -18,7 +18,11 @@ or
 mamba env create -f environment.yml
 activate c17-97-t-data-bi
 ```
+finally execute
 
+```bash
+pip install -r requirements.txt
+```
 The packages necessary to run the project are now installed inside the conda environment.
 
 **Note: The following sections assume you are located in your conda environment.**
