@@ -1,5 +1,5 @@
-import libraries
 import data_collection
+import pandas as pd
 
 data = data_collection.main()
 
@@ -36,7 +36,7 @@ def expDatasets():
         info_datasets.append(getInfoDataset(df))
 
     # A DataFrame is created from the list of dictionaries
-    df_info_datasets = libraries.pd.DataFrame(info_datasets)
+    df_info_datasets = pd.DataFrame(info_datasets)
     df_info_datasets.style.set_table_styles([{"selector": "th", "props": [("text-align", "center"), ("font-weight", "bold")]}])
 
     return df_info_datasets
@@ -70,7 +70,7 @@ def expColumns():
             })
 
     # Create the pandas DataFrame from the table_data list
-    df = libraries.pd.DataFrame(table_data)
+    df = pd.DataFrame(table_data)
     return df
 
 

@@ -1,6 +1,9 @@
-import libraries
 import data_collection
-# from c17_97_t_data_bi.utils.paths import make_dir_function
+import pandas as pd
+import numpy as np
+import os
+import warnings
+warnings.filterwarnings("ignore")
 
 data = data_collection.main()
 
@@ -18,6 +21,16 @@ def featureEnginering():
     order_reviews_df.drop('review_comment_title', axis=1, inplace=True)
     # We replace the NaN values of 'review_comment_message' with 'Unspecified'
     order_reviews_df['review_comment_message'].fillna("Unspecified", inplace=True)
+    # Modified 'review_creation_date' in datetime
+    order_reviews_df['review_creation_date'] = pd.to_datetime(order_reviews_df['review_creation_date'])
+    # Modified 'review_answer_timestamp' in datetime
+    order_reviews_df['review_answer_timestamp'] = pd.to_datetime(order_reviews_df['review_answer_timestamp'])
+    # Survey response time in hours
+    order_reviews_df['answer_hour'] = order_reviews_df['review_answer_timestamp'].dt.hour
+    # Modified 'review_creation_date' in datetime
+    order_reviews_df['review_creation_date'] = pd.to_datetime(order_reviews_df['review_creation_date'])
+    # Survey response time in days
+    order_reviews_df['day_of_month'] = order_reviews_df['review_creation_date'].dt.day
 
     # We eliminate the rows that contain NaN in 'products'
     products_df.dropna(axis=0, inplace=True)
@@ -25,26 +38,26 @@ def featureEnginering():
     # We use the fill() method to replace NULL values with the value of the previous row
     orders_df['order_delivered_customer_date'] = orders_df['order_delivered_customer_date'].fillna(method='ffill')
     # Modified 'order_purchase_timestamp' in datetime
-    orders_df['datetime'] =  libraries.pd.to_datetime(orders_df['order_purchase_timestamp'])
+    orders_df['datetime'] =  pd.to_datetime(orders_df['order_purchase_timestamp'])
     # Rows with missing NaN values are deleted
     orders_df.dropna(axis=0, inplace=True)
     # We create two columns separating only the dates.
-    orders_df['delivered_time'] = libraries.pd.to_datetime(orders_df['order_delivered_customer_date'].str[:10], format='%Y-%m-%d').dt.date
-    orders_df['estimated_time'] = libraries.pd.to_datetime(orders_df['order_estimated_delivery_date'].str[:10], format='%Y-%m-%d').dt.date
+    orders_df['delivered_time'] = pd.to_datetime(orders_df['order_delivered_customer_date'].str[:10], format='%Y-%m-%d').dt.date
+    orders_df['estimated_time'] = pd.to_datetime(orders_df['order_estimated_delivery_date'].str[:10], format='%Y-%m-%d').dt.date
     # We create a new column with the difference in days of 'estimated time' and 'delivered time'.
     orders_df['diff_days'] = orders_df['delivered_time'] - orders_df['estimated_time']
-    orders_df['diff_days'] = libraries.pd.to_timedelta(orders_df['diff_days'])
+    orders_df['diff_days'] = pd.to_timedelta(orders_df['diff_days'])
     orders_df['diff_days'] = orders_df['diff_days'].dt.days
     # We create a new column with the number of weeks spent per year.
-    orders_df['weekly'] = libraries.pd.to_datetime(orders_df['order_delivered_customer_date']).dt.isocalendar().week
+    orders_df['weekly'] = pd.to_datetime(orders_df['order_delivered_customer_date']).dt.isocalendar().week
     # We create a new column with the year and month of 'order_delivered_customer_date'.
-    orders_df['yearly'] = libraries.pd.to_datetime(orders_df['order_delivered_customer_date']).dt.to_period('M')
+    orders_df['yearly'] = pd.to_datetime(orders_df['order_delivered_customer_date']).dt.to_period('M')
     orders_df['yearly'] = orders_df['yearly'].astype(str)
     # Convert an 'object' to an object of type 'datetime'.
-    orders_df["order_purchase_timestamp"] = libraries.pd.to_datetime(orders_df["order_purchase_timestamp"])
+    orders_df["order_purchase_timestamp"] = pd.to_datetime(orders_df["order_purchase_timestamp"])
 
     # A new column is created in the order payments dataset called 'value_log' that contains the logarithm values of the payment value.
-    order_payments_df['value_log'] = order_payments_df['payment_value'].apply(lambda x: libraries.np.log(x) if x > 0 else 0)
+    order_payments_df['value_log'] = order_payments_df['payment_value'].apply(lambda x: np.log(x) if x > 0 else 0)
 
     # We add a new column that contains only 10 digits of seller_id
     sellers_df['seller_id_small'] = sellers_df['seller_id'].str[-10:]
@@ -75,8 +88,8 @@ def removeColumns(df) -> None:
 
 def main():
     featureEnginering()
-    print(mergingDatasets().info())
-    print(removeColumns(mergingDatasets()))
+    # print(mergingDatasets().info())
+    print(removeColumns(mergingDatasets()).info())
     datasets = {
         'customer_df': customer_df,
         'geolocation_df': geolocation_df,
@@ -91,11 +104,11 @@ def main():
 
     directory = 'data/processed'
 
-    if not libraries.os.path.exists(directory):
-        libraries.os.makedirs(directory)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
     for names, df in datasets.items():
-        csv_file_path = libraries.os.path.join(directory, f'{names}.csv')
+        csv_file_path = os.path.join(directory, f'{names}.csv')
         df.to_csv(csv_file_path, index=False)
 
 if __name__ == "__main__":
