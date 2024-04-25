@@ -67,68 +67,67 @@ ETL, EDA, Data Analysis, Machine Learning, Data Base, Automation, Data Pipelines
 
     ├── LICENSE
     |
-    ├── README.md          <- The top-level README for developers using this project.
+    ├── README.md              <- README para desarrolladores que utilizan este proyecto.
     |
-    ├── install.md         <- Detailed instructions to set up this project.
+    ├── install.md             <- Instrucciones detalladas para configurar este proyecto.
     |
     ├── data
-    │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- The original, immutable data dump.
+    │   ├── processed          <- Los datos canónicos finales para el modelado.
+    │   └── raw                <- Los datos original e inmutable.
     │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │   ├── datasets                  
-    │   |   ├── olist_geolocation_dataset.csv
-    |   |   └── processed_dataset.pkl      
-    │   ├── Plots  
-    |   ├── functions.ipynb
-    |   ├── ETL.ipynb
-    |   ├── EDA.ipynb
-    |   ├── Model RFM and Clustering K-means.ipynb
-    |   ├── Product Price Prediction Models.ipynb
-    |   └── E_Commerce_Completed.ipynb
+    ├── notebooks              <- Cuadernos Jupyter con el código y gráficas completas.
+    │   ├── datasets           <- Archivos usados en los Notebooks.
+    │   |   ├── olist_geolocation_dataset.csv       <- Utilizado en 'EDA.ipynb'.
+    |   |   └── processed_dataset.pkl               <- Contiene el dataset final 'olist_df.csv' obtenido en 'ETL.ipynb'.
+    │   ├── Plots                                   <- Graficas estaticas para reemplazarlas por las generadas con Plotly (Para mostrarlas en el Repo).
+    |   ├── functions.ipynb                         <- Notebook explicando a detalle el archivo '/c17_97_t_data_bi/data/make_dataset.py'.
+    |   ├── ETL.ipynb                               <- Fragmento del ETL.
+    |   ├── EDA.ipynb                               <- Fragmento del EDA.
+    |   ├── Model RFM and Clustering K-means.ipynb  <- Fragmento del modelo de Clustering K-means (Conjutos de Clientes).
+    |   ├── Product Price Prediction Models.ipynb   <- Fragmento de los modelos de predicción de valor de transacción (Red Neuronal, XGBoost, Regresión Lineal, Regresor Random Forest).
+    |   └── E_Commerce_Completed.ipynb              <- Notebook con completo.
     |
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-    │   ├── data_dictionary.xlsx
-    |   └── dataset_overview.md
+    ├── references             <- Data dictionaries, manuals, and all other explanatory materials.
+    │   ├── data_dictionary.xlsx                    <- 
+    |   └── dataset_overview.md                     <- 
+    | 
+    ├── environment.yml        <- El archivo de requisitos para reproducir el entorno de análisis.
     |
-    ├── environment.yml    <- The requirements file for reproducing the analysis environment.
+    ├── requirements.txt       <- Archivo para gestionar las dependencias del proyecto.
+    │
+    ├── .gitignore             <- Archivo para especificar qué archivos o directorios deben ser ignorados por Git y no deben ser rastreados.
+    │
+    ├── .here                  <- Archivo que detendrá la búsqueda si ninguno de los demás criterios se aplica al buscar jefe de proyecto.
+    │
+    ├── setup.py               <- Hace que el pip del proyecto sea instalable (pip install -e .) para que se pueda importar e_commerce_project.
+    │
+    ├── sql_scripts            <- Contiene los scripts SQL utilizados para crear y cargar datos.
+    │   ├── Data Ingestion.sql                      <- 
+    |   ├── Database Creation.sql                   <- 
+    |   └── Database Queries.sql                    <- 
     |
-    ├── requirements.txt   <- 
-    │
-    ├── .gitignore         <- 
-    │
-    ├── .here              <- File that will stop the search if none of the other criteria
-    │                         apply when searching head of project.
-    │
-    ├── setup.py           <- Makes project pip installable (pip install -e .)
-    │                         so e_commerce_project can be imported.
-    │
-    ├── sql_scripts        <- Contains the SQL scripts used for creating and uploading data.
-    │   ├── Data Ingestion.sql
-    |   ├── Database Creation.sql
-    |   └── Database Queries.sql
-    |
-    └── e_commerce_project               <- Source code for use in this project.
-        ├── __init__.py    <- Makes e_commerce_project a Python module.
+    └── e_commerce_project     <- Código fuente para usar en este proyecto.
+        ├── __init__.py        <- Convierte e_commerce_project en un módulo de Python.
         │
-        ├── data           <- Scripts to download or generate data.
+        ├── data               
         │   ├── __init__.py
-        |   └── make_dataset.py
+        |   └── make_dataset.py                     <- Script para generar datos.              
         │
-        ├── features       <- Scripts to turn raw data into features for modeling.
+        ├── features           <- Scripts para hacer descarga, exploración y procesamiento de datos de los datasets
         │   ├── __init__.py
-        |   ├── data_collection.py download_data.py
-        |   ├── data_exploratory.py
-        |   ├── data_preprocessing.py
-        |   └── 
+        |   ├── download_data.py                    <- Script para usar la función downloadData de 'make_dataset.py'
+        |   ├── data_collection.py                  <- Script para usar descargar los datasets
+        |   ├── data_exploratory.py                 <- Script para hacer la exploración de los datasets
+        |   └── data_preprocessing.py               <- Script para procesamiento de datos
         │
-        ├── models         <- Scripts to train models and then use trained models to make
-        │   │                 predictions.
-        │   ├── predict_model.py
-        │   └── train_model.py
+        ├── models             <- Scripts para entrenar los modelos y luego usar modelos entrenados para hacer predicciones.
+        │   ├── __init__.py                         
+        │   ├── model_kmeans.py                     <- Script para el modelo de Clustering K-means (Conjutos de Clientes).            
+        │   └── model_predict_vproduct.py           <- Script para los modelos de predicción de valor de transacción
         │
-        └── utils          <- Scripts to help with common tasks.
-            └── paths.py   <- Helper functions to relative file referencing across project.
+        └── utils              <- Scripts para ayudar con tareas comunes.
+            ├── __init__.py                          
+            └── paths.py                            <- Funciones auxiliares para referencias relativas de archivos en todo el proyecto.
 
 
 ## Introducción
